@@ -15,7 +15,7 @@ public class Echo {
 
         Scanner scanner = new Scanner(System.in);
         String input = "";
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         while (true){
@@ -24,13 +24,30 @@ public class Echo {
             if (input.equals("bye")){
                 break;
             } else if (input.equals("list")){
-                System.out.println("____________________________________________________________\n");
+                System.out.println("____________________________________________________________\n" +
+                        " Here are the tasks in your list:\n");
                 for(int i = 0; i < taskCount; i++){
-                    System.out.println((i+1) + ". " + tasks[i]);
+                    String mark = tasks[i].isDone ? "X" : "";
+                    System.out.println(" " + (i+1) + ". [" + mark + "] " + tasks[i].description);
                 }
                 System.out.println("____________________________________________________________\n");
+            } else if (input.startsWith("mark ")) {
+                int taskNum = Integer.parseInt(input.substring(5)) - 1;
+                tasks[taskNum].isDone = true;
+                System.out.println("____________________________________________________________\n" +
+                        " Nice! I've marked this task as done:\n");
+                System.out.println("   [X] " + tasks[taskNum].description);
+                System.out.println("____________________________________________________________\n");
+
+            } else if (input.startsWith("unmark ")) {
+                int taskNum = Integer.parseInt(input.substring(7)) - 1;
+                tasks[taskNum].isDone = false;
+                System.out.println("____________________________________________________________\n" +
+                        " Nice! I've marked this task as not done yet:\n");
+                System.out.println("   [] " + tasks[taskNum].description);
+                System.out.println("____________________________________________________________\n");
             } else {
-                tasks[taskCount] = input;
+                tasks[taskCount] = new Task(input);
                 taskCount++;
 
                 String response = "____________________________________________________________\n" +
@@ -42,5 +59,15 @@ public class Echo {
         }
 
         System.out.println(end);
+    }
+}
+
+class Task {
+    String description;
+    boolean isDone;
+
+    Task(String description) {
+        this.description = description;
+        this.isDone = false;
     }
 }
