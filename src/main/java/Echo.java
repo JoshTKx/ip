@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Echo {
     public static void main(String[] args) {
@@ -15,8 +16,7 @@ public class Echo {
 
         Scanner scanner = new Scanner(System.in);
         String input = "";
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
 
         while (true) {
@@ -27,8 +27,8 @@ public class Echo {
                 } else if (input.equals("list")) {
                     System.out.println("____________________________________________________________\n" +
                             " Here are the tasks in your list:\n");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println(" " + (i + 1) + "." + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println(" " + (i + 1) + "." + tasks.get(i));
                     }
                     System.out.println("____________________________________________________________\n");
 
@@ -37,10 +37,10 @@ public class Echo {
 
                 } else if (input.startsWith("mark ")) {
                     int taskNum = Integer.parseInt(input.substring(5)) - 1;
-                    tasks[taskNum].markDone();
+                    tasks.get(taskNum).markDone();
                     System.out.println("____________________________________________________________\n" +
                             " Nice! I've marked this task as done:\n");
-                    System.out.println("   [X] " + tasks[taskNum].description);
+                    System.out.println("   " + tasks.get(taskNum));
                     System.out.println("____________________________________________________________\n");
 
                 } else if (input.equals("unmark") || (input.startsWith("unmark ") && input.substring(7).trim().isEmpty())) {
@@ -48,22 +48,21 @@ public class Echo {
 
                 } else if (input.startsWith("unmark ")) {
                     int taskNum = Integer.parseInt(input.substring(7)) - 1;
-                    tasks[taskNum].markNotDone();
+                    tasks.get(taskNum).markNotDone();
                     System.out.println("____________________________________________________________\n" +
                             " Nice! I've marked this task as not done yet:\n");
-                    System.out.println("   [] " + tasks[taskNum].description);
+                    System.out.println("   " + tasks.get(taskNum));
                     System.out.println("____________________________________________________________\n");
                 } else if (input.equals("todo") || (input.startsWith("todo ") && input.substring(5).trim().isEmpty())) {
                     throw new EchoException("Hmm, you forgot to tell me what the todo is! Try: todo <description>");
 
                 } else if (input.startsWith("todo ")) {
                     String description = input.substring(5);
-                    tasks[taskCount] = new Todo(description);
-                    taskCount++;
+                    tasks.add(new Todo(description));
                     System.out.println("____________________________________________________________");
                     System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + tasks[taskCount - 1]);
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("   " +  tasks.get(tasks.size() - 1));
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
                 } else if (input.equals("deadline") || (input.startsWith("deadline ") && !input.contains("/by"))) {
                     throw new EchoException("Deadlines need a date! Use: deadline <task> /by <date>");
@@ -72,12 +71,11 @@ public class Echo {
                     String[] parts = input.substring(9).split(" /by ");
                     String description = parts[0];
                     String by = parts[1];
-                    tasks[taskCount] = new Deadline(description, by);
-                    taskCount++;
+                    tasks.add(new Deadline(description, by));
                     System.out.println("____________________________________________________________");
                     System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + tasks[taskCount - 1]);
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("   " + tasks.get(tasks.size() - 1));
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
 
                 } else if (input.equals("event") || (input.startsWith("event ") && (!input.contains("/from") || !input.contains("/to")))) {
@@ -88,14 +86,28 @@ public class Echo {
                     String description = parts[0];
                     String from = parts[1];
                     String to = parts[2];
-                    tasks[taskCount] = new Event(description, from, to);
-                    taskCount++;
+                    tasks.add(new Event(description, from, to));
                     System.out.println("____________________________________________________________");
                     System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + tasks[taskCount - 1]);
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("   " + tasks.get(tasks.size() - 1));
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
-                } else if (input.trim().isEmpty()) {
+                } else if (input.equals("delete") || (input.startsWith("delete ") && input.substring(7).trim().isEmpty())) {
+                    throw new EchoException("OOPS!!! Please specify which task to delete.");
+
+                } else if (input.startsWith("delete ")) {
+                    int taskNum = Integer.parseInt(input.substring(7).trim()) - 1;
+                    if (taskNum < 0 || taskNum >= tasks.size()) {
+                        throw new EchoException("OOPS!!! Task number doesn't exist.");
+                    }
+                    Task removedTask = tasks.remove(taskNum);
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Noted. I've removed this task:");
+                    System.out.println("   " + removedTask);
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+
+                }else if (input.trim().isEmpty()) {
                         continue;
                 } else {
                     throw new EchoException("I don't understand '" + input + "'. Try: todo, deadline, event, list, mark, or unmark.");

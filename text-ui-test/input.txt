@@ -9,4 +9,6 @@ unmark 1
 list
 todo
 blah
+delete 4
+delete 1
 bye
