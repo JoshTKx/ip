@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Echo {
@@ -14,18 +15,32 @@ public class Echo {
 
         Scanner scanner = new Scanner(System.in);
         String input = "";
+        String[] tasks = new String[100];
+        int taskCount = 0;
 
-        while (!input.equals("bye")){
+        while (true){
             input = scanner.nextLine();
 
-            String response = "____________________________________________________________\n" +
-                    input + "\n" +
-                    "____________________________________________________________\n";
+            if (input.equals("bye")){
+                break;
+            } else if (input.equals("list")){
+                System.out.println("____________________________________________________________\n");
+                for(int i = 0; i < taskCount; i++){
+                    System.out.println((i+1) + ". " + tasks[i]);
+                }
+                System.out.println("____________________________________________________________\n");
+            } else {
+                tasks[taskCount] = input;
+                taskCount++;
 
-            System.out.println(response);
+                String response = "____________________________________________________________\n" +
+                        "added: " + input + "\n" +
+                        "____________________________________________________________\n";
+                System.out.println(response);
+            }
+
         }
 
         System.out.println(end);
-
     }
 }
