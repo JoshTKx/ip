@@ -125,6 +125,13 @@ public class Echo {
                     System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
                     storage.save(tasks);
+                } else if (input.equals("clear")) {
+                    tasks.clear();
+                    storage.save(tasks);
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" All tasks have been cleared!");
+                    System.out.println("____________________________________________________________");
+
                 } else if (input.trim().isEmpty()) {
                         continue;
                 } else {
