@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Storage {
 
-    private String filePath;
+    private final String filePath;
 
     public Storage(String filePath) {
         this.filePath = filePath;
@@ -49,6 +49,10 @@ public class Storage {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
             return null; // Corrupted line
+        }
+
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i].trim();
         }
 
         String type = parts[0];
