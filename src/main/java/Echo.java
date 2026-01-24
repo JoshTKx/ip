@@ -1,8 +1,11 @@
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.IOException;
 
 public class Echo {
+    private static final String FILE_PATH = "./data/echo.txt";
+
     public static void main(String[] args) {
         String intro = "____________________________________________________________\n" +
                 " Hello! I'm Echo\n" +
@@ -16,8 +19,19 @@ public class Echo {
 
         Scanner scanner = new Scanner(System.in);
         String input = "";
+
+        Storage storage = new Storage(FILE_PATH);
         ArrayList<Task> tasks = new ArrayList<>();
 
+
+        try {
+            tasks = storage.load();
+            if (!tasks.isEmpty()) {
+                System.out.println("Loaded " + tasks.size() + " task(s) from file.\n");
+            }
+        } catch (IOException e) {
+            System.out.println("No previous data found. Starting fresh!\n");
+        }
 
         while (true) {
             input = scanner.nextLine();
@@ -42,7 +56,7 @@ public class Echo {
                             " Nice! I've marked this task as done:\n");
                     System.out.println("   " + tasks.get(taskNum));
                     System.out.println("____________________________________________________________\n");
-
+                    storage.save(tasks);
                 } else if (input.equals("unmark") || (input.startsWith("unmark ") && input.substring(7).trim().isEmpty())) {
                     throw new EchoException("Which task should I unmark? Use: unmark <task number>");
 
@@ -53,6 +67,8 @@ public class Echo {
                             " Nice! I've marked this task as not done yet:\n");
                     System.out.println("   " + tasks.get(taskNum));
                     System.out.println("____________________________________________________________\n");
+                    storage.save(tasks);
+
                 } else if (input.equals("todo") || (input.startsWith("todo ") && input.substring(5).trim().isEmpty())) {
                     throw new EchoException("Hmm, you forgot to tell me what the todo is! Try: todo <description>");
 
@@ -64,6 +80,7 @@ public class Echo {
                     System.out.println("   " +  tasks.get(tasks.size() - 1));
                     System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
+                    storage.save(tasks);
                 } else if (input.equals("deadline") || (input.startsWith("deadline ") && !input.contains("/by"))) {
                     throw new EchoException("Deadlines need a date! Use: deadline <task> /by <date>");
 
@@ -77,7 +94,7 @@ public class Echo {
                     System.out.println("   " + tasks.get(tasks.size() - 1));
                     System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
-
+                    storage.save(tasks);
                 } else if (input.equals("event") || (input.startsWith("event ") && (!input.contains("/from") || !input.contains("/to")))) {
                     throw new EchoException("Events need start and end times! Use: event <task> /from <time> /to <time>");
 
@@ -92,6 +109,7 @@ public class Echo {
                     System.out.println("   " + tasks.get(tasks.size() - 1));
                     System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
+                    storage.save(tasks);
                 } else if (input.equals("delete") || (input.startsWith("delete ") && input.substring(7).trim().isEmpty())) {
                     throw new EchoException("OOPS!!! Please specify which task to delete.");
 
@@ -106,8 +124,8 @@ public class Echo {
                     System.out.println("   " + removedTask);
                     System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
-
-                }else if (input.trim().isEmpty()) {
+                    storage.save(tasks);
+                } else if (input.trim().isEmpty()) {
                         continue;
                 } else {
                     throw new EchoException("I don't understand '" + input + "'. Try: todo, deadline, event, list, mark, or unmark.");
@@ -116,6 +134,10 @@ public class Echo {
             } catch (EchoException e) {
                 System.out.println("____________________________________________________________");
                 System.out.println(" " + e.getMessage());
+                System.out.println("____________________________________________________________");
+            } catch (IOException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(" Error saving to file: " + e.getMessage());
                 System.out.println("____________________________________________________________");
             } catch (Exception e) {
                 System.out.println("____________________________________________________________");
