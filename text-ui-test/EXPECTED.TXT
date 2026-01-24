@@ -4,6 +4,9 @@ ____________________________________________________________
 ____________________________________________________________
 
 ____________________________________________________________
+ All tasks have been cleared!
+____________________________________________________________
+____________________________________________________________
  Got it. I've added this task:
    [T][ ] borrow book
  Now you have 1 tasks in the list.
@@ -15,15 +18,39 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   [D][ ] submit report (by: Dec 15 2019)
  Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] assignment (by: Dec 20 2019, 6:00PM)
+ Now you have 4 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 5 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] conference (from: Dec 10 2019 to: Dec 12 2019)
+ Now you have 6 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] workshop (from: Dec 5 2019, 2:00PM to: Dec 5 2019, 4:00PM)
+ Now you have 7 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
 
  1.[T][ ] borrow book
  2.[D][ ] return book (by: Sunday)
- 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 3.[D][ ] submit report (by: Dec 15 2019)
+ 4.[D][ ] assignment (by: Dec 20 2019, 6:00PM)
+ 5.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 6.[E][ ] conference (from: Dec 10 2019 to: Dec 12 2019)
+ 7.[E][ ] workshop (from: Dec 5 2019, 2:00PM to: Dec 5 2019, 4:00PM)
 ____________________________________________________________
 
 ____________________________________________________________
@@ -43,7 +70,11 @@ ____________________________________________________________
 
  1.[T][X] borrow book
  2.[D][X] return book (by: Sunday)
- 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 3.[D][ ] submit report (by: Dec 15 2019)
+ 4.[D][ ] assignment (by: Dec 20 2019, 6:00PM)
+ 5.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 6.[E][ ] conference (from: Dec 10 2019 to: Dec 12 2019)
+ 7.[E][ ] workshop (from: Dec 5 2019, 2:00PM to: Dec 5 2019, 4:00PM)
 ____________________________________________________________
 
 ____________________________________________________________
@@ -57,7 +88,11 @@ ____________________________________________________________
 
  1.[T][ ] borrow book
  2.[D][X] return book (by: Sunday)
- 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 3.[D][ ] submit report (by: Dec 15 2019)
+ 4.[D][ ] assignment (by: Dec 20 2019, 6:00PM)
+ 5.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 6.[E][ ] conference (from: Dec 10 2019 to: Dec 12 2019)
+ 7.[E][ ] workshop (from: Dec 5 2019, 2:00PM to: Dec 5 2019, 4:00PM)
 ____________________________________________________________
 
 ____________________________________________________________
@@ -72,7 +107,21 @@ ____________________________________________________________
 ____________________________________________________________
  Noted. I've removed this task:
    [T][ ] borrow book
- Now you have 2 tasks in the list.
+ Now you have 6 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+
+ 1.[D][X] return book (by: Sunday)
+ 2.[D][ ] submit report (by: Dec 15 2019)
+ 3.[D][ ] assignment (by: Dec 20 2019, 6:00PM)
+ 4.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 5.[E][ ] conference (from: Dec 10 2019 to: Dec 12 2019)
+ 6.[E][ ] workshop (from: Dec 5 2019, 2:00PM to: Dec 5 2019, 4:00PM)
+____________________________________________________________
+
+____________________________________________________________
+ All tasks have been cleared!
 ____________________________________________________________
 ____________________________________________________________
  Bye. Hope to see you again soon!
