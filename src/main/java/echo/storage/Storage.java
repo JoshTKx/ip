@@ -12,15 +12,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Handles loading and saving of tasks to/from a file.
+ * Manages file I/O operations and parsing of task data from file format.
+ */
 public class Storage {
 
     private final String filePath;
 
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The path to the file used for storing tasks.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+
+    /**
+     * Loads tasks from the storage file.
+     * Creates the directory and file if they don't exist.
+     * Skips and warns about any corrupted lines in the file.
+     *
+     * @return An ArrayList of tasks loaded from the file, or an empty list if file doesn't exist.
+     * @throws IOException If there's an error reading from the file.
+     */
     public ArrayList<Task> load() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
@@ -53,6 +70,13 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Parses a single line from the file into a Task object.
+     * Expected format: "TYPE | STATUS | DESCRIPTION | [ADDITIONAL_INFO]"
+     *
+     * @param line The line from the file to parse.
+     * @return A Task object (Todo, Deadline, or Event), or null if the line is corrupted.
+     */
     private Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
@@ -90,6 +114,14 @@ public class Storage {
         return task;
     }
 
+    /**
+     * Saves the list of tasks to the storage file.
+     * Creates the directory and file if they don't exist.
+     * Overwrites any existing file content.
+     *
+     * @param tasks The ArrayList of tasks to save.
+     * @throws IOException If there's an error writing to the file.
+     */
     public void save(ArrayList<Task> tasks) throws IOException {
         File file = new File(filePath);
 
