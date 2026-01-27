@@ -1,3 +1,7 @@
+package echo.parser;
+
+import echo.exception.EchoException;
+
 public class Parser {
 
     public static String getCommand(String input) {

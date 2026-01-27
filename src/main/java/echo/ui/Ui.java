@@ -1,3 +1,8 @@
+package echo.ui;
+
+import echo.task.Task;
+import echo.tasklist.TaskList;
+
 import java.util.Scanner;
 
 public class Ui {

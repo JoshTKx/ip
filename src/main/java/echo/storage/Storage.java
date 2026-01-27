@@ -1,3 +1,11 @@
+package echo.storage;
+
+import echo.task.Task;
+import echo.task.Todo;
+import echo.task.Deadline;
+import echo.task.Event;
+
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

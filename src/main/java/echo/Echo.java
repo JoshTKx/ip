@@ -1,11 +1,23 @@
+package echo;
+
+import echo.exception.EchoException;
+import echo.parser.Parser;
+import echo.storage.Storage;
+import echo.task.Deadline;
+import echo.task.Event;
+import echo.task.Task;
+import echo.task.Todo;
+import echo.tasklist.TaskList;
+import echo.ui.Ui;
+
 import java.io.IOException;
 
 public class Echo {
     private static final String FILE_PATH = "./data/echo.txt";
 
-    private Storage storage;
+    private final Storage storage;
     private TaskList tasks;
-    private Ui ui;
+    private final Ui ui;
 
     public Echo(String filePath) {
         ui = new Ui();
