@@ -5,7 +5,7 @@ import echo.exception.EchoException;
 public class Parser {
 
     public static String getCommand(String input) {
-        return input.split(" ")[0];
+        return input.split("\\s+")[0];
     }
 
     public static String getDescription(String input, String command) {
@@ -16,7 +16,7 @@ public class Parser {
     }
 
     public static int getTaskNumber(String input) throws EchoException {
-        String[] parts = input.split(" ");
+        String[] parts = input.split("\\s+");
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new EchoException("Please provide a task number.");
         }
