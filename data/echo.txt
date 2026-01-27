@@ -1,2 +1,0 @@
-T | 0 | egg
-D | 0 | fly | tonight
