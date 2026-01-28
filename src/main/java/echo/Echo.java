@@ -23,7 +23,6 @@ public class Echo {
     private TaskList tasks;
     private final Ui ui;
 
-
     /**
      * Constructs an Echo instance with the specified file path for data storage.
      *
@@ -42,7 +41,6 @@ public class Echo {
             tasks = new TaskList();
         }
     }
-
 
     /**
      * Runs the main loop of the chatbot, processing user commands until exit.
@@ -104,7 +102,6 @@ public class Echo {
         ui.close();
     }
 
-
     /**
      * Handles the mark command to mark a task as done.
      *
@@ -124,7 +121,6 @@ public class Echo {
         storage.save(tasks);
         ui.showTaskMarked(tasks.get(taskNum), true);
     }
-
 
     /**
      * Handles the unmark command to mark a task as not done.
@@ -164,7 +160,6 @@ public class Echo {
         ui.showTaskAdded(task, tasks.size());
     }
 
-
     /**
      * Handles the deadline command to create a new deadline task.
      *
@@ -181,7 +176,6 @@ public class Echo {
         ui.showTaskAdded(task, tasks.size());
     }
 
-
     /**
      * Handles the event command to create a new event task.
      *
@@ -197,7 +191,6 @@ public class Echo {
         storage.save(tasks);
         ui.showTaskAdded(task, tasks.size());
     }
-
 
     /**
      * Handles the delete command to remove a task from the list.
@@ -219,7 +212,6 @@ public class Echo {
         ui.showTaskDeleted(removedTask, tasks.size());
     }
 
-
     /**
      * Handles the clear command to remove all tasks from the list.
      *
@@ -232,7 +224,6 @@ public class Echo {
         System.out.println(" All tasks have been cleared!");
         ui.showLine();
     }
-
 
     /**
      * Handles the find command to search for tasks containing a keyword.

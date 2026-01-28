@@ -2,7 +2,6 @@ package echo.parser;
 
 import echo.exception.EchoException;
 
-
 /**
  * Handles parsing of user input commands.
  * Provides static methods to extract and validate different parts of user commands.
@@ -52,7 +51,6 @@ public class Parser {
         }
     }
 
-
     /**
      * Parses a deadline command to extract the task description and due date.
      * Expected format: "description /by date"
@@ -71,7 +69,6 @@ public class Parser {
         }
         return new String[]{parts[0].trim(), parts[1].trim()};
     }
-
 
     /**
      * Parses an event command to extract the task description, start time, and end time.

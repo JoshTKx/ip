@@ -56,7 +56,6 @@ public class Event extends Task {
                 this.endDate = null;
             }
         }
-
     }
 
     /**
@@ -99,7 +98,6 @@ public class Event extends Task {
         } else {
             toString = to;
         }
-
 
         return "[E]" + super.toString() + " (from: " + fromString + " to: " + toString + ")";
     }
