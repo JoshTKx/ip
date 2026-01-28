@@ -3,10 +3,6 @@ package echo.task;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class EventTest {
 
@@ -14,48 +10,42 @@ public class EventTest {
     public void constructor_validDescription_success() {
         Event event = new Event("meeting", "Mon 2pm", "4pm");
         assertEquals("meeting", event.getDescription());
-        assertFalse(event.isDone);
+        assertEquals(" ", event.getStatusIcon());
     }
 
     @Test
     public void constructor_dateOnlyFormat_parsesDates() {
         Event event = new Event("conference", "2019-12-10", "2019-12-12");
-        assertNotNull(event.startDate);
-        assertNotNull(event.endDate);
-        assertNull(event.startDateTime);
-        assertNull(event.endDateTime);
+        // Test behavior: formatted dates should appear in output
+        assertEquals("[E][ ] conference (from: Dec 10 2019 to: Dec 12 2019)", event.toString());
     }
 
     @Test
     public void constructor_dateTimeFormat_parsesDateTimes() {
         Event event = new Event("workshop", "2019-12-05 1400", "2019-12-05 1600");
-        assertNotNull(event.startDateTime);
-        assertNotNull(event.endDateTime);
-        assertNull(event.startDate);
-        assertNull(event.endDate);
+        // Test behavior: formatted datetimes should appear in output
+        assertEquals("[E][ ] workshop (from: Dec 5 2019, 2:00PM to: Dec 5 2019, 4:00PM)", event.toString());
     }
 
     @Test
     public void constructor_stringFormat_noParsing() {
         Event event = new Event("party", "Saturday 8pm", "Sunday 2am");
-        assertNull(event.startDate);
-        assertNull(event.endDate);
-        assertNull(event.startDateTime);
-        assertNull(event.endDateTime);
+        // Test behavior: original strings should appear in output
+        assertEquals("[E][ ] party (from: Saturday 8pm to: Sunday 2am)", event.toString());
     }
 
     @Test
     public void constructor_mixedFormat_parsesBoth() {
         Event event = new Event("trip", "2019-12-10", "evening");
-        assertNotNull(event.startDate);
-        assertNull(event.endDate);
+        // Test behavior: mixed formatted/unformatted output
+        assertEquals("[E][ ] trip (from: Dec 10 2019 to: evening)", event.toString());
     }
 
     @Test
     public void markDone_notDoneTask_marksAsDone() {
         Event event = new Event("meeting", "Mon 2pm", "4pm");
         event.markDone();
-        assertTrue(event.isDone);
+        assertEquals("X", event.getStatusIcon());
     }
 
     @Test
@@ -63,7 +53,7 @@ public class EventTest {
         Event event = new Event("meeting", "Mon 2pm", "4pm");
         event.markDone();
         event.markNotDone();
-        assertFalse(event.isDone);
+        assertEquals(" ", event.getStatusIcon());
     }
 
     @Test

@@ -5,85 +5,137 @@ import echo.tasklist.TaskList;
 
 import java.util.Scanner;
 
+/**
+ * Handles all user interface interactions.
+ * Manages input/output operations including displaying messages and reading user commands.
+ */
 public class Ui {
     private final Scanner scanner;
 
+    /**
+     * Constructs a Ui instance and initializes the scanner for reading user input.
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Displays the welcome message when the application starts.
+     */
     public void showWelcome() {
-        String logo = """
-                ____________________________________________________________
-                 Hello! I'm Echo
-                 What can I do for you?
-                ____________________________________________________________""";
-        System.out.println(logo);
+        showLine();
+        System.out.println(" Hello! I'm Echo");
+        System.out.println(" What can I do for you?");
+        showLine();
     }
 
+    /**
+     * Displays the goodbye message when the application exits.
+     */
     public void showGoodbye() {
-        String message = """
-                ____________________________________________________________
-                 Bye. Hope to see you again soon!
-                ____________________________________________________________
-                """;
-        System.out.println(message);
+        showLine();
+        System.out.println(" Bye. Hope to see you again soon!");
+        showLine();
     }
 
+    /**
+     * Displays a horizontal line separator.
+     */
     public void showLine() {
         System.out.println("____________________________________________________________");
     }
 
+    /**
+     * Displays an error message to the user.
+     *
+     * @param message The error message to display.
+     */
     public void showError(String message) {
-        System.out.println("____________________________________________________________");
+        showLine();
         System.out.println(" " + message);
-        System.out.println("____________________________________________________________");
+        showLine();
     }
 
+    /**
+     * Displays a message indicating that no previous data was found.
+     */
     public void showLoadingError() {
         System.out.println("No previous data found. Starting fresh!\n");
     }
 
+    /**
+     * Displays a confirmation message after a task has been added.
+     *
+     * @param task The task that was added.
+     * @param taskCount The total number of tasks in the list after adding.
+     */
     public void showTaskAdded(Task task, int taskCount) {
-        System.out.println("____________________________________________________________");
+        showLine();
         System.out.println(" Got it. I've added this task:");
         System.out.println("   " + task);
         System.out.println(" Now you have " + taskCount + " tasks in the list.");
-        System.out.println("____________________________________________________________");
+        showLine();
     }
 
+    /**
+     * Displays a confirmation message after a task has been deleted.
+     *
+     * @param task The task that was deleted.
+     * @param taskCount The total number of tasks in the list after deletion.
+     */
     public void showTaskDeleted(Task task, int taskCount) {
-        System.out.println("____________________________________________________________");
+        showLine();
         System.out.println(" Noted. I've removed this task:");
         System.out.println("   " + task);
         System.out.println(" Now you have " + taskCount + " tasks in the list.");
-        System.out.println("____________________________________________________________");
+        showLine();
     }
 
+    /**
+     * Displays a confirmation message after a task's status has been changed.
+     *
+     * @param task The task whose status was changed.
+     * @param isDone True if the task was marked as done, false if marked as not done.
+     */
     public void showTaskMarked(Task task, boolean isDone) {
-        System.out.println("____________________________________________________________");
+        showLine();
         if (isDone) {
             System.out.println(" Nice! I've marked this task as done:");
         } else {
             System.out.println(" OK, I've marked this task as not done yet:");
         }
         System.out.println("   " + task);
-        System.out.println("____________________________________________________________");
+        showLine();
     }
 
+    /**
+     * Displays the list of all tasks.
+     *
+     * @param tasks The TaskList containing all tasks to display.
+     */
     public void showTaskList(TaskList tasks) {
-        System.out.println("____________________________________________________________");
+        showLine();
         System.out.println(" Here are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(" " + (i + 1) + "." + tasks.get(i));
         }
-        System.out.println("____________________________________________________________\n");
+        showLine();
+        System.out.println();
     }
 
+    /**
+     * Reads and returns the next line of user input.
+     *
+     * @return The user's input as a string.
+     */
     public String readCommand() {
         return scanner.nextLine();
     }
 
+    /**
+     * Closes the scanner to release system resources.
+     * Should be called when the application exits.
+     */
     public void close() {
         scanner.close();
     }

@@ -180,17 +180,4 @@ public class TaskListTest {
         assertEquals(0, tasks.size());
     }
 
-    // ========== getTasks Tests ==========
-    @Test
-    public void getTasks_returnsCorrectArrayList() {
-        Task task1 = new Todo("task 1");
-        Task task2 = new Todo("task 2");
-        tasks.add(task1);
-        tasks.add(task2);
-
-        ArrayList<Task> result = tasks.getTasks();
-        assertEquals(2, result.size());
-        assertEquals(task1, result.get(0));
-        assertEquals(task2, result.get(1));
-    }
 }

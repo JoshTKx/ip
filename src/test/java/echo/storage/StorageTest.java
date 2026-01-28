@@ -4,9 +4,9 @@ import echo.task.Task;
 import echo.task.Todo;
 import echo.task.Deadline;
 import echo.task.Event;
+import echo.tasklist.TaskList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class StorageTest {
 
@@ -38,13 +36,11 @@ public class StorageTest {
     @Test
     public void load_fileDoesNotExist_returnsEmptyList() throws IOException {
         ArrayList<Task> tasks = storage.load();
-        assertNotNull(tasks);
         assertEquals(0, tasks.size());
     }
 
     @Test
     public void load_emptyFile_returnsEmptyList() throws IOException {
-        // Create empty file
         new File(testFilePath).getParentFile().mkdirs();
         new File(testFilePath).createNewFile();
 
@@ -140,7 +136,7 @@ public class StorageTest {
     // ========== Save Tests ==========
     @Test
     public void save_emptyList_createsEmptyFile() throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
         storage.save(tasks);
 
         assertTrue(new File(testFilePath).exists());
@@ -150,7 +146,7 @@ public class StorageTest {
 
     @Test
     public void save_singleTask_success() throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
         tasks.add(new Todo("buy milk"));
         storage.save(tasks);
 
@@ -161,7 +157,7 @@ public class StorageTest {
 
     @Test
     public void save_multipleTasks_success() throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
         tasks.add(new Todo("buy milk"));
         tasks.add(new Deadline("homework", "Sunday"));
         tasks.add(new Event("meeting", "Mon 2pm", "4pm"));
@@ -176,7 +172,7 @@ public class StorageTest {
 
     @Test
     public void save_markedTask_preservesStatus() throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
         Todo todo = new Todo("buy milk");
         todo.markDone();
         tasks.add(todo);
@@ -184,13 +180,13 @@ public class StorageTest {
 
         ArrayList<Task> loaded = storage.load();
         assertEquals(1, loaded.size());
-        assertEquals("X", tasks.get(0).getStatusIcon());
+        assertEquals("X", loaded.get(0).getStatusIcon());
     }
 
     // ========== Save and Load Cycle Tests ==========
     @Test
     public void saveAndLoad_taskWithDates_preservesFormat() throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
         tasks.add(new Deadline("homework", "2019-12-15"));
         tasks.add(new Event("workshop", "2019-12-05 1400", "2019-12-05 1600"));
         storage.save(tasks);
@@ -203,7 +199,7 @@ public class StorageTest {
 
     @Test
     public void saveAndLoad_mixedTasks_preservesAll() throws IOException {
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
         Todo todo = new Todo("buy milk");
         todo.markDone();
         tasks.add(todo);
@@ -215,21 +211,21 @@ public class StorageTest {
 
         ArrayList<Task> loaded = storage.load();
         assertEquals(3, loaded.size());
-        assertEquals("X", tasks.get(0).getStatusIcon());
-        assertEquals(" ", tasks.get(1).getStatusIcon());
-        assertEquals("X", tasks.get(2).getStatusIcon());
+        assertEquals("X", loaded.get(0).getStatusIcon());
+        assertEquals(" ", loaded.get(1).getStatusIcon());
+        assertEquals("X", loaded.get(2).getStatusIcon());
     }
 
     @Test
     public void save_overwritesExistingFile_success() throws IOException {
         // Save first set of tasks
-        ArrayList<Task> tasks1 = new ArrayList<>();
+        TaskList tasks1 = new TaskList();
         tasks1.add(new Todo("task 1"));
         tasks1.add(new Todo("task 2"));
         storage.save(tasks1);
 
         // Save different set of tasks
-        ArrayList<Task> tasks2 = new ArrayList<>();
+        TaskList tasks2 = new TaskList();
         tasks2.add(new Todo("task 3"));
         storage.save(tasks2);
 
