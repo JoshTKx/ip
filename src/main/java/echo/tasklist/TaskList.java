@@ -67,13 +67,11 @@ public class TaskList {
         return tasks.size();
     }
 
+
     /**
-     * Returns the underlying ArrayList of tasks.
-     * Note: This exposes the internal list structure. Used primarily for file storage operations.
-     *
-     * @return The ArrayList containing all tasks.
+     * Removes all tasks from the list.
      */
-    public ArrayList<Task> getTasks() {
-        return tasks;
+    public void clear() {
+        tasks.clear();
     }
 }

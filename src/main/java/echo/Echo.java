@@ -118,7 +118,7 @@ public class Echo {
             throw new EchoException("Task number doesn't exist.");
         }
         tasks.get(taskNum).markDone();
-        storage.save(tasks.getTasks());
+        storage.save(tasks);
         ui.showTaskMarked(tasks.get(taskNum), true);
     }
 
@@ -139,7 +139,7 @@ public class Echo {
             throw new EchoException("Task number doesn't exist.");
         }
         tasks.get(taskNum).markNotDone();
-        storage.save(tasks.getTasks());
+        storage.save(tasks);
         ui.showTaskMarked(tasks.get(taskNum), false);
     }
 
@@ -157,7 +157,7 @@ public class Echo {
         }
         Task task = new Todo(description);
         tasks.add(task);
-        storage.save(tasks.getTasks());
+        storage.save(tasks);
         ui.showTaskAdded(task, tasks.size());
     }
 
@@ -174,7 +174,7 @@ public class Echo {
         String[] parts = Parser.parseDeadline(description);
         Task task = new Deadline(parts[0], parts[1]);
         tasks.add(task);
-        storage.save(tasks.getTasks());
+        storage.save(tasks);
         ui.showTaskAdded(task, tasks.size());
     }
 
@@ -191,7 +191,7 @@ public class Echo {
         String[] parts = Parser.parseEvent(description);
         Task task = new Event(parts[0], parts[1], parts[2]);
         tasks.add(task);
-        storage.save(tasks.getTasks());
+        storage.save(tasks);
         ui.showTaskAdded(task, tasks.size());
     }
 
@@ -212,7 +212,7 @@ public class Echo {
             throw new EchoException("Task number doesn't exist.");
         }
         Task removedTask = tasks.remove(taskNum);
-        storage.save(tasks.getTasks());
+        storage.save(tasks);
         ui.showTaskDeleted(removedTask, tasks.size());
     }
 
@@ -223,8 +223,8 @@ public class Echo {
      * @throws IOException If there's an error saving the empty task list to file.
      */
     private void handleClear() throws IOException {
-        tasks.getTasks().clear();
-        storage.save(tasks.getTasks());
+        tasks.clear();
+        storage.save(tasks);
         ui.showLine();
         System.out.println(" All tasks have been cleared!");
         ui.showLine();

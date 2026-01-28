@@ -3,10 +3,6 @@ package echo.task;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DeadlineTest {
 
@@ -14,35 +10,35 @@ public class DeadlineTest {
     public void constructor_validDescription_success() {
         Deadline deadline = new Deadline("return book", "Sunday");
         assertEquals("return book", deadline.getDescription());
-        assertFalse(deadline.isDone);
+        assertEquals(" ", deadline.getStatusIcon());
     }
 
     @Test
     public void constructor_dateOnlyFormat_parsesDate() {
         Deadline deadline = new Deadline("homework", "2019-12-15");
-        assertNotNull(deadline.date);
-        assertNull(deadline.dateTime);
+        // Test behavior: formatted date should appear in output
+        assertEquals("[D][ ] homework (by: Dec 15 2019)", deadline.toString());
     }
 
     @Test
     public void constructor_dateTimeFormat_parsesDateTime() {
         Deadline deadline = new Deadline("submit report", "2019-12-15 1800");
-        assertNotNull(deadline.dateTime);
-        assertNull(deadline.date);
+        // Test behavior: formatted datetime should appear in output
+        assertEquals("[D][ ] submit report (by: Dec 15 2019, 6:00PM)", deadline.toString());
     }
 
     @Test
     public void constructor_stringFormat_noParsing() {
         Deadline deadline = new Deadline("homework", "Sunday");
-        assertNull(deadline.date);
-        assertNull(deadline.dateTime);
+        // Test behavior: original string should appear in output
+        assertEquals("[D][ ] homework (by: Sunday)", deadline.toString());
     }
 
     @Test
     public void markDone_notDoneTask_marksAsDone() {
         Deadline deadline = new Deadline("return book", "Sunday");
         deadline.markDone();
-        assertTrue(deadline.isDone);
+        assertEquals("X", deadline.getStatusIcon());
     }
 
     @Test
@@ -50,7 +46,7 @@ public class DeadlineTest {
         Deadline deadline = new Deadline("return book", "Sunday");
         deadline.markDone();
         deadline.markNotDone();
-        assertFalse(deadline.isDone);
+        assertEquals(" ", deadline.getStatusIcon());
     }
 
     @Test

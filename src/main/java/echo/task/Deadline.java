@@ -8,8 +8,8 @@ import java.time.format.DateTimeParseException;
 
 public class Deadline extends Task {
     protected String by;
-    protected LocalDateTime dateTime;
-    protected LocalDate date;
+    private LocalDateTime dateTime;
+    private LocalDate date;
 
     public Deadline(String description, String by) {
         super(description);

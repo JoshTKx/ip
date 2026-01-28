@@ -4,6 +4,7 @@ import echo.task.Task;
 import echo.task.Todo;
 import echo.task.Deadline;
 import echo.task.Event;
+import echo.tasklist.TaskList;
 
 
 import java.io.File;
@@ -119,10 +120,10 @@ public class Storage {
      * Creates the directory and file if they don't exist.
      * Overwrites any existing file content.
      *
-     * @param tasks The ArrayList of tasks to save.
+     * @param tasks The TaskList containing tasks to save.
      * @throws IOException If there's an error writing to the file.
      */
-    public void save(ArrayList<Task> tasks) throws IOException {
+    public void save(TaskList tasks) throws IOException {
         File file = new File(filePath);
 
         // Create directory if it doesn't exist
@@ -132,8 +133,8 @@ public class Storage {
         }
 
         FileWriter writer = new FileWriter(file);
-        for (Task task : tasks) {
-            writer.write(task.toFileFormat() + "\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            writer.write(tasks.get(i).toFileFormat() + "\n");
         }
         writer.close();
     }
