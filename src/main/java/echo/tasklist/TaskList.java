@@ -67,7 +67,6 @@ public class TaskList {
         return tasks.size();
     }
 
-
     /**
      * Removes all tasks from the list.
      */
@@ -75,6 +74,12 @@ public class TaskList {
         tasks.clear();
     }
 
+    /**
+     * Finds all tasks whose descriptions contain the specified keyword.
+     *
+     * @param keyword The keyword to search for in task descriptions.
+     * @return A new TaskList containing all matching tasks.
+     */
     public TaskList findTasks(String keyword) {
         TaskList matchingTasks = new TaskList();
         for (Task task : tasks) {
