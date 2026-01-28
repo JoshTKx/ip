@@ -69,6 +69,9 @@ public class Echo {
                 } else if (command.equals("clear")) {
                     handleClear();
 
+                } else if (command.equals("find")) {
+                    handleFind(input);
+
                 } else if (!input.trim().isEmpty()) {
                     throw new EchoException("I don't understand '" + input + "'. Try: todo, deadline, event, list, mark, or unmark.");
                 }
@@ -160,6 +163,15 @@ public class Echo {
         ui.showLine();
         System.out.println(" All tasks have been cleared!");
         ui.showLine();
+    }
+
+    private void handleFind(String input) throws EchoException {
+        String keyword = Parser.getDescription(input, "find");
+        if (keyword.isEmpty()) {
+            throw new EchoException("Please provide a keyword to search for. Use: find <keyword>");
+        }
+        TaskList matchingTasks = tasks.findTasks(keyword);
+        ui.showMatchingTasks(matchingTasks);
     }
 
     public static void main(String[] args) {
