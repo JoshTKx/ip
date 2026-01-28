@@ -16,7 +16,6 @@ import java.io.IOException;
  * Main class for the Echo task management chatbot.
  * Handles initialization, command processing, and coordination between components.
  */
-
 public class Echo {
     private static final String FILE_PATH = "./data/echo.txt";
 
@@ -83,6 +82,9 @@ public class Echo {
 
                 } else if (command.equals("clear")) {
                     handleClear();
+
+                } else if (command.equals("find")) {
+                    handleFind(input);
 
                 } else if (!input.trim().isEmpty()) {
                     throw new EchoException("I don't understand '" + input
@@ -229,6 +231,22 @@ public class Echo {
         ui.showLine();
         System.out.println(" All tasks have been cleared!");
         ui.showLine();
+    }
+
+
+    /**
+     * Handles the find command to search for tasks containing a keyword.
+     *
+     * @param input The full user input string containing the find command and keyword.
+     * @throws EchoException If the keyword is missing.
+     */
+    private void handleFind(String input) throws EchoException {
+        String keyword = Parser.getDescription(input, "find");
+        if (keyword.isEmpty()) {
+            throw new EchoException("Please provide a keyword to search for. Use: find <keyword>");
+        }
+        TaskList matchingTasks = tasks.findTasks(keyword);
+        ui.showMatchingTasks(matchingTasks);
     }
 
     /**
