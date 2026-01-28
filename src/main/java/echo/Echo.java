@@ -70,7 +70,8 @@ public class Echo {
                     handleClear();
 
                 } else if (!input.trim().isEmpty()) {
-                    throw new EchoException("I don't understand '" + input + "'. Try: todo, deadline, event, list, mark, or unmark.");
+                    throw new EchoException("I don't understand '" + input
+                            + "'. Try: todo, deadline, event, list, mark, or unmark.");
                 }
 
             } catch (EchoException e) {
