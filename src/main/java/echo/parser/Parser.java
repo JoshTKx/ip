@@ -83,7 +83,8 @@ public class Parser {
      */
     public static String[] parseEvent(String description) throws EchoException {
         if (!description.contains("/from") || !description.contains("/to")) {
-            throw new EchoException("Events need start and end times! Use: event <task> /from <time> /to <time>");
+            throw new EchoException("Events need start and end times! "
+                    + "Use: event <task> /from <time> /to <time>");
         }
         String[] parts = description.split(" /from | /to ");
         if (parts.length < 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {

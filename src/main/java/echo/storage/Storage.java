@@ -6,7 +6,6 @@ import echo.task.Deadline;
 import echo.task.Event;
 import echo.tasklist.TaskList;
 
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,7 +28,6 @@ public class Storage {
     public Storage(String filePath) {
         this.filePath = filePath;
     }
-
 
     /**
      * Loads tasks from the storage file.
@@ -138,5 +136,4 @@ public class Storage {
         }
         writer.close();
     }
-
 }

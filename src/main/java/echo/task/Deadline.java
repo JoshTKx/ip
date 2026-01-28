@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-
 /**
  * Represents a task with a deadline.
  * Supports parsing dates in multiple formats: datetime (yyyy-MM-dd HHmm),
@@ -78,5 +77,4 @@ public class Deadline extends Task {
         }
         return "[D]" + super.toString() + " (by: " + dateString + ")";
     }
-
 }
