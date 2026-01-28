@@ -193,4 +193,56 @@ public class TaskListTest {
         assertEquals(task1, result.get(0));
         assertEquals(task2, result.get(1));
     }
+
+    // ========== Find Tests ==========
+    @Test
+    public void findTasks_matchingKeyword_returnsMatchingTasks() {
+        tasks.add(new Todo("read book"));
+        tasks.add(new Todo("buy groceries"));
+        tasks.add(new Deadline("return book", "Sunday"));
+
+        TaskList results = tasks.findTasks("book");
+
+        assertEquals(2, results.size());
+        assertEquals("[T][ ] read book", results.get(0).toString());
+        assertEquals("[D][ ] return book (by: Sunday)", results.get(1).toString());
+    }
+
+    @Test
+    public void findTasks_noMatch_returnsEmptyList() {
+        tasks.add(new Todo("read book"));
+        tasks.add(new Todo("buy groceries"));
+
+        TaskList results = tasks.findTasks("homework");
+
+        assertEquals(0, results.size());
+    }
+
+    @Test
+    public void findTasks_emptyList_returnsEmptyList() {
+        TaskList results = tasks.findTasks("book");
+        assertEquals(0, results.size());
+    }
+
+    @Test
+    public void findTasks_partialMatch_returnsMatchingTasks() {
+        tasks.add(new Todo("read book"));
+        tasks.add(new Todo("bookmark page"));
+        tasks.add(new Todo("buy groceries"));
+
+        TaskList results = tasks.findTasks("book");
+
+        assertEquals(2, results.size());
+    }
+
+    @Test
+    public void findTasks_caseSensitive_returnsExactMatches() {
+        tasks.add(new Todo("Read Book"));
+        tasks.add(new Todo("read book"));
+
+        TaskList results = tasks.findTasks("book");
+
+        assertEquals(1, results.size());
+        assertEquals("[T][ ] read book", results.get(0).toString());
+    }
 }
