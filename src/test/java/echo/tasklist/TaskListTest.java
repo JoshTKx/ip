@@ -1,16 +1,17 @@
 package echo.tasklist;
 
-import echo.task.Task;
-import echo.task.Todo;
-import echo.task.Deadline;
-import echo.task.Event;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import echo.task.Deadline;
+import echo.task.Event;
+import echo.task.Task;
+import echo.task.Todo;
 
 public class TaskListTest {
 

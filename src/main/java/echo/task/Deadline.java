@@ -20,7 +20,7 @@ public class Deadline extends Task {
      * Attempts to parse the date string as datetime, then date, falling back to plain text.
      *
      * @param description The description of the deadline task.
-     * @param by The due date/time as a string (supports yyyy-MM-dd HHmm, yyyy-MM-dd, or plain text).
+     * @param by          The due date/time as a string (supports yyyy-MM-dd HHmm, yyyy-MM-dd, or plain text).
      */
     public Deadline(String description, String by) {
         super(description);

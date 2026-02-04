@@ -1,8 +1,8 @@
 package echo.tasklist;
 
-import echo.task.Task;
-
 import java.util.ArrayList;
+
+import echo.task.Task;
 
 /**
  * Manages a list of tasks.

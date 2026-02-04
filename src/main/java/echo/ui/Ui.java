@@ -1,9 +1,9 @@
 package echo.ui;
 
+import java.util.Scanner;
+
 import echo.task.Task;
 import echo.tasklist.TaskList;
-
-import java.util.Scanner;
 
 /**
  * Handles all user interface interactions.
@@ -66,7 +66,7 @@ public class Ui {
     /**
      * Displays a confirmation message after a task has been added.
      *
-     * @param task The task that was added.
+     * @param task      The task that was added.
      * @param taskCount The total number of tasks in the list after adding.
      */
     public void showTaskAdded(Task task, int taskCount) {
@@ -80,7 +80,7 @@ public class Ui {
     /**
      * Displays a confirmation message after a task has been deleted.
      *
-     * @param task The task that was deleted.
+     * @param task      The task that was deleted.
      * @param taskCount The total number of tasks in the list after deletion.
      */
     public void showTaskDeleted(Task task, int taskCount) {
@@ -94,7 +94,7 @@ public class Ui {
     /**
      * Displays a confirmation message after a task's status has been changed.
      *
-     * @param task The task whose status was changed.
+     * @param task   The task whose status was changed.
      * @param isDone True if the task was marked as done, false if marked as not done.
      */
     public void showTaskMarked(Task task, boolean isDone) {

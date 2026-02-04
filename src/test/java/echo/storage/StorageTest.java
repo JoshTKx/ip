@@ -1,13 +1,7 @@
 package echo.storage;
 
-import echo.task.Task;
-import echo.task.Todo;
-import echo.task.Deadline;
-import echo.task.Event;
-import echo.tasklist.TaskList;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,8 +9,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import echo.task.Deadline;
+import echo.task.Event;
+import echo.task.Task;
+import echo.task.Todo;
+import echo.tasklist.TaskList;
 
 public class StorageTest {
 

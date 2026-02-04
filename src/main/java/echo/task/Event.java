@@ -23,8 +23,8 @@ public class Event extends Task {
      * Attempts to parse each time string as datetime, then date, falling back to plain text.
      *
      * @param description The description of the event task.
-     * @param from The start date/time as a string (supports yyyy-MM-dd HHmm, yyyy-MM-dd, or plain text).
-     * @param to The end date/time as a string (supports yyyy-MM-dd HHmm, yyyy-MM-dd, or plain text).
+     * @param from        The start date/time as a string (supports yyyy-MM-dd HHmm, yyyy-MM-dd, or plain text).
+     * @param to          The end date/time as a string (supports yyyy-MM-dd HHmm, yyyy-MM-dd, or plain text).
      */
     public Event(String description, String from, String to) {
         super(description);
@@ -66,7 +66,7 @@ public class Event extends Task {
      */
     @Override
     public String toFileFormat() {
-        return "E " + super.toFileFormat() + " | "  + from + " | " + to ;
+        return "E " + super.toFileFormat() + " | " + from + " | " + to;
     }
 
     /**

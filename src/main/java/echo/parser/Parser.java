@@ -21,7 +21,7 @@ public class Parser {
     /**
      * Extracts the description/arguments portion of the user input after the command word.
      *
-     * @param input The full user input string.
+     * @param input   The full user input string.
      * @param command The command word to remove from the input.
      * @return The remaining text after the command word, or empty string if none exists.
      */
