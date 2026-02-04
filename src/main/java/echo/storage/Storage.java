@@ -1,16 +1,16 @@
 package echo.storage;
 
-import echo.task.Task;
-import echo.task.Todo;
-import echo.task.Deadline;
-import echo.task.Event;
-import echo.tasklist.TaskList;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import echo.task.Deadline;
+import echo.task.Event;
+import echo.task.Task;
+import echo.task.Todo;
+import echo.tasklist.TaskList;
 
 /**
  * Handles loading and saving of tasks to/from a file.
@@ -104,6 +104,8 @@ public class Storage {
             if (parts.length >= 5) {
                 task = new Event(description, parts[3], parts[4]);
             }
+            break;
+        default:
             break;
         }
 

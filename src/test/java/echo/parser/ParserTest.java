@@ -1,11 +1,12 @@
 package echo.parser;
 
-import echo.exception.EchoException;
-import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+import org.junit.jupiter.api.Test;
+
+import echo.exception.EchoException;
 
 public class ParserTest {
 

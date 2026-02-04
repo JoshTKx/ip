@@ -1,5 +1,7 @@
 package echo;
 
+import java.io.IOException;
+
 import echo.exception.EchoException;
 import echo.parser.Parser;
 import echo.storage.Storage;
@@ -9,8 +11,6 @@ import echo.task.Task;
 import echo.task.Todo;
 import echo.tasklist.TaskList;
 import echo.ui.Ui;
-
-import java.io.IOException;
 
 /**
  * Main class for the Echo task management chatbot.
@@ -107,7 +107,7 @@ public class Echo {
      *
      * @param input The user input containing the task number to mark.
      * @throws EchoException If the task number is invalid or missing.
-     * @throws IOException If there's an error saving to file.
+     * @throws IOException   If there's an error saving to file.
      */
     private void handleMark(String input) throws EchoException, IOException {
         if (input.equals("mark") || Parser.getDescription(input, "mark").isEmpty()) {
@@ -127,7 +127,7 @@ public class Echo {
      *
      * @param input The user input containing the task number to unmark.
      * @throws EchoException If the task number is invalid or missing.
-     * @throws IOException If there's an error saving to file.
+     * @throws IOException   If there's an error saving to file.
      */
     private void handleUnmark(String input) throws EchoException, IOException {
         if (input.equals("unmark") || Parser.getDescription(input, "unmark").isEmpty()) {
@@ -147,7 +147,7 @@ public class Echo {
      *
      * @param input The full user input string containing the todo command and description.
      * @throws EchoException If the task description is empty.
-     * @throws IOException If there's an error saving the new task to file.
+     * @throws IOException   If there's an error saving the new task to file.
      */
     private void handleTodo(String input) throws EchoException, IOException {
         String description = Parser.getDescription(input, "todo");
@@ -165,7 +165,7 @@ public class Echo {
      *
      * @param input The full user input string containing the deadline command, description, and date.
      * @throws EchoException If the description or date is missing or invalid.
-     * @throws IOException If there's an error saving the new task to file.
+     * @throws IOException   If there's an error saving the new task to file.
      */
     private void handleDeadline(String input) throws EchoException, IOException {
         String description = Parser.getDescription(input, "deadline");
@@ -181,7 +181,7 @@ public class Echo {
      *
      * @param input The full user input string containing the event command, description, start and end times.
      * @throws EchoException If the description, start time, or end time is missing or invalid.
-     * @throws IOException If there's an error saving the new task to file.
+     * @throws IOException   If there's an error saving the new task to file.
      */
     private void handleEvent(String input) throws EchoException, IOException {
         String description = Parser.getDescription(input, "event");
@@ -197,7 +197,7 @@ public class Echo {
      *
      * @param input The full user input string containing the delete command and task number.
      * @throws EchoException If the task number is invalid, missing, or out of bounds.
-     * @throws IOException If there's an error saving the updated task list to file.
+     * @throws IOException   If there's an error saving the updated task list to file.
      */
     private void handleDelete(String input) throws EchoException, IOException {
         if (input.equals("delete") || Parser.getDescription(input, "delete").isEmpty()) {
