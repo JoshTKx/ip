@@ -26,7 +26,7 @@ public class Main extends Application {
             fxmlLoader.<MainWindow>getController().setEcho(echo); // inject the Echo instance
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error loading MainWindow FXML: " + e.getMessage());
         }
     }
 }

@@ -18,6 +18,21 @@ import echo.tasklist.TaskList;
  */
 public class Storage {
 
+    private static final String DELIMITER = " \\| ";
+    private static final int MIN_PARTS = 3;
+    private static final int DEADLINE_PARTS = 4;
+    private static final int EVENT_PARTS = 5;
+    private static final int INDEX_TYPE = 0;
+    private static final int INDEX_STATUS = 1;
+    private static final int INDEX_DESCRIPTION = 2;
+    private static final int INDEX_DEADLINE_BY = 3;
+    private static final int INDEX_EVENT_FROM = 3;
+    private static final int INDEX_EVENT_TO = 4;
+    private static final String STATUS_DONE = "1";
+    private static final String TYPE_TODO = "T";
+    private static final String TYPE_DEADLINE = "D";
+    private static final String TYPE_EVENT = "E";
+
     private final String filePath;
 
     /**
@@ -78,8 +93,8 @@ public class Storage {
      */
     private Task parseTask(String line) {
         assert line != null : "Line cannot be null";
-        String[] parts = line.split(" \\| ");
-        if (parts.length < 3) {
+        String[] parts = line.split(DELIMITER);
+        if (parts.length < MIN_PARTS) {
             return null; // Corrupted line
         }
 
@@ -87,23 +102,23 @@ public class Storage {
             parts[i] = parts[i].trim();
         }
 
-        String type = parts[0];
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2];
+        String type = parts[INDEX_TYPE];
+        boolean isDone = parts[INDEX_STATUS].equals(STATUS_DONE);
+        String description = parts[INDEX_DESCRIPTION];
 
         Task task = null;
         switch (type) {
-        case "T":
+        case TYPE_TODO:
             task = new Todo(description);
             break;
-        case "D":
-            if (parts.length >= 4) {
-                task = new Deadline(description, parts[3]);
+        case TYPE_DEADLINE:
+            if (parts.length >= DEADLINE_PARTS) {
+                task = new Deadline(description, parts[INDEX_DEADLINE_BY]);
             }
             break;
-        case "E":
-            if (parts.length >= 5) {
-                task = new Event(description, parts[3], parts[4]);
+        case TYPE_EVENT:
+            if (parts.length >= EVENT_PARTS) {
+                task = new Event(description, parts[INDEX_EVENT_FROM], parts[INDEX_EVENT_TO]);
             }
             break;
         default:

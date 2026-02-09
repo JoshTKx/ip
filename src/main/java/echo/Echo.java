@@ -10,7 +10,6 @@ import echo.task.Event;
 import echo.task.Task;
 import echo.task.Todo;
 import echo.tasklist.TaskList;
-import echo.ui.Ui;
 
 /**
  * Main class for the Echo task management chatbot.
@@ -18,11 +17,18 @@ import echo.ui.Ui;
  */
 public class Echo {
     private static final String FILE_PATH = "./data/echo.txt";
-
+    private static final String COMMAND_BYE = "bye";
+    private static final String COMMAND_CLEAR = "clear";
+    private static final String COMMAND_DEADLINE = "deadline";
+    private static final String COMMAND_DELETE = "delete";
+    private static final String COMMAND_EVENT = "event";
+    private static final String COMMAND_FIND = "find";
+    private static final String COMMAND_LIST = "list";
+    private static final String COMMAND_MARK = "mark";
+    private static final String COMMAND_TODO = "todo";
+    private static final String COMMAND_UNMARK = "unmark";
     private final Storage storage;
     private TaskList tasks;
-    private final Ui ui;
-
     /**
      * Constructs an Echo instance with the specified file path for data storage.
      *
@@ -30,8 +36,6 @@ public class Echo {
      */
     public Echo(String filePath) {
         assert filePath != null : "File path cannot be null";
-
-        ui = new Ui();
         storage = new Storage(filePath);
         try {
             tasks = new TaskList(storage.load());
@@ -39,7 +43,6 @@ public class Echo {
                 System.out.println("Loaded " + tasks.size() + " task(s) from file.\n");
             }
         } catch (IOException e) {
-            ui.showLoadingError();
             tasks = new TaskList();
         }
 
@@ -57,49 +60,54 @@ public class Echo {
     public String getResponse(String input) {
         try {
             String command = Parser.getCommand(input);
-
-            if (command.equals("bye")) {
-                return "Bye. Hope to see you again soon!";
-
-            } else if (command.equals("list")) {
-                return getTaskListString();
-
-            } else if (command.equals("mark")) {
-                return handleMarkResponse(input);
-
-            } else if (command.equals("unmark")) {
-                return handleUnmarkResponse(input);
-
-            } else if (command.equals("todo")) {
-                return handleTodoResponse(input);
-
-            } else if (command.equals("deadline")) {
-                return handleDeadlineResponse(input);
-
-            } else if (command.equals("event")) {
-                return handleEventResponse(input);
-
-            } else if (command.equals("delete")) {
-                return handleDeleteResponse(input);
-
-            } else if (command.equals("clear")) {
-                return handleClearResponse();
-
-            } else if (command.equals("find")) {
-                return handleFindResponse(input);
-
-            } else if (!input.trim().isEmpty()) {
-                throw new EchoException("I don't understand '" + input
-                        + "'. Try: todo, deadline, event, list, mark, or unmark.");
-            }
-            return "";
-
+            return executeCommand(command, input);
         } catch (EchoException e) {
             return e.getMessage();
         } catch (IOException e) {
             return "Error saving to file: " + e.getMessage();
         } catch (Exception e) {
             return "Uh oh! Something unexpected happened: " + e.getMessage();
+        }
+    }
+
+
+    /**
+     * Executes the appropriate command based on the command string.
+     *
+     * @param command The command string extracted from user input.
+     * @param input   The full user input string.
+     * @return The response string from executing the command.
+     * @throws EchoException If the command is invalid or execution fails.
+     * @throws IOException   If there's an error saving to file.
+     */
+    private String executeCommand(String command, String input) throws EchoException, IOException {
+        switch (command) {
+        case COMMAND_BYE:
+            return "Bye. Hope to see you again soon!";
+        case COMMAND_LIST:
+            return getTaskListString();
+        case COMMAND_MARK:
+            return handleMarkResponse(input);
+        case COMMAND_UNMARK:
+            return handleUnmarkResponse(input);
+        case COMMAND_TODO:
+            return handleTodoResponse(input);
+        case COMMAND_DEADLINE:
+            return handleDeadlineResponse(input);
+        case COMMAND_EVENT:
+            return handleEventResponse(input);
+        case COMMAND_DELETE:
+            return handleDeleteResponse(input);
+        case COMMAND_CLEAR:
+            return handleClearResponse();
+        case COMMAND_FIND:
+            return handleFindResponse(input);
+        default:
+            if (!input.trim().isEmpty()) {
+                throw new EchoException("I don't understand '" + input
+                        + "'. Try: todo, deadline, event, list, mark, or unmark.");
+            }
+            return "";
         }
     }
 
@@ -128,7 +136,7 @@ public class Echo {
      * @throws IOException   If there's an error saving to file.
      */
     private String handleMarkResponse(String input) throws EchoException, IOException {
-        if (input.equals("mark") || Parser.getDescription(input, "mark").isEmpty()) {
+        if (input.equals(COMMAND_MARK) || Parser.getDescription(input, COMMAND_MARK).isEmpty()) {
             throw new EchoException("Which task should I mark? Use: mark <task number>");
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
@@ -152,7 +160,7 @@ public class Echo {
      * @throws IOException   If there's an error saving to file.
      */
     private String handleUnmarkResponse(String input) throws EchoException, IOException {
-        if (input.equals("unmark") || Parser.getDescription(input, "unmark").isEmpty()) {
+        if (input.equals(COMMAND_UNMARK) || Parser.getDescription(input, COMMAND_UNMARK).isEmpty()) {
             throw new EchoException("Which task should I unmark? Use: unmark <task number>");
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
@@ -176,7 +184,7 @@ public class Echo {
      * @throws IOException   If there's an error saving the new task to file.
      */
     private String handleTodoResponse(String input) throws EchoException, IOException {
-        String description = Parser.getDescription(input, "todo");
+        String description = Parser.getDescription(input, COMMAND_TODO);
         if (description.isEmpty()) {
             throw new EchoException("Hmm, you forgot to tell me what the todo is! Try: todo <description>");
         }
@@ -195,7 +203,7 @@ public class Echo {
      * @throws IOException   If there's an error saving the new task to file.
      */
     private String handleDeadlineResponse(String input) throws EchoException, IOException {
-        String description = Parser.getDescription(input, "event");
+        String description = Parser.getDescription(input, COMMAND_DEADLINE);
         String[] parts = Parser.parseDeadline(description);
         Task task = new Deadline(parts[0], parts[1]);
         tasks.add(task);
@@ -212,7 +220,7 @@ public class Echo {
      * @throws IOException   If there's an error saving the new task to file.
      */
     private String handleEventResponse(String input) throws EchoException, IOException {
-        String description = Parser.getDescription(input, "event");
+        String description = Parser.getDescription(input, COMMAND_EVENT);
         String[] parts = Parser.parseEvent(description);
         Task task = new Event(parts[0], parts[1], parts[2]);
         tasks.add(task);
@@ -229,7 +237,7 @@ public class Echo {
      * @throws IOException   If there's an error saving the updated task list to file.
      */
     private String handleDeleteResponse(String input) throws EchoException, IOException {
-        if (input.equals("delete") || Parser.getDescription(input, "delete").isEmpty()) {
+        if (input.equals(COMMAND_DELETE) || Parser.getDescription(input, COMMAND_DELETE).isEmpty()) {
             throw new EchoException("Please specify which task to delete.");
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
@@ -262,7 +270,7 @@ public class Echo {
      * @throws EchoException If the keyword is missing.
      */
     private String handleFindResponse(String input) throws EchoException {
-        String keyword = Parser.getDescription(input, "find");
+        String keyword = Parser.getDescription(input, COMMAND_FIND);
         if (keyword.isEmpty()) {
             throw new EchoException("Please provide a keyword to search for. Use: find <keyword>");
         }
