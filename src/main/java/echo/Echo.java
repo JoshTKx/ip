@@ -35,6 +35,7 @@ public class Echo {
      * @param filePath The path to the data file for saving and loading tasks.
      */
     public Echo(String filePath) {
+        assert filePath != null : "File path cannot be null";
         storage = new Storage(filePath);
         try {
             tasks = new TaskList(storage.load());
@@ -44,6 +45,9 @@ public class Echo {
         } catch (IOException e) {
             tasks = new TaskList();
         }
+
+        assert storage != null : "Storage must be initialized";
+        assert tasks != null : "TaskList must be initialized";
     }
 
     /**
@@ -136,9 +140,12 @@ public class Echo {
             throw new EchoException("Which task should I mark? Use: mark <task number>");
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
+        assert taskNum >= -1 : "Task number after parsing should be >= -1";
         if (taskNum < 0 || taskNum >= tasks.size()) {
             throw new EchoException("Task number doesn't exist.");
         }
+
+        assert tasks.get(taskNum) != null : "Task at valid index should not be null";
         tasks.get(taskNum).markDone();
         storage.save(tasks);
         return "Nice! I've marked this task as done:\n  " + tasks.get(taskNum);
@@ -157,9 +164,12 @@ public class Echo {
             throw new EchoException("Which task should I unmark? Use: unmark <task number>");
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
+        assert taskNum >= -1 : "Task number after parsing should be >= -1";
         if (taskNum < 0 || taskNum >= tasks.size()) {
             throw new EchoException("Task number doesn't exist.");
         }
+
+        assert tasks.get(taskNum) != null : "Task at valid index should not be null";
         tasks.get(taskNum).markNotDone();
         storage.save(tasks);
         return "OK, I've marked this task as not done yet:\n  " + tasks.get(taskNum);

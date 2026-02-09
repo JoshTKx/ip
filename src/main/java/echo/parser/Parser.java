@@ -21,6 +21,7 @@ public class Parser {
      * @return The first word of the input, representing the command.
      */
     public static String getCommand(String input) {
+        assert input != null : "Input cannot be null";
         return input.split("\\s+")[0];
     }
 
@@ -32,6 +33,8 @@ public class Parser {
      * @return The remaining text after the command word, or empty string if none exists.
      */
     public static String getDescription(String input, String command) {
+        assert input != null : "Input cannot be null";
+        assert command != null : "Command cannot be null";
         if (input.length() <= command.length()) {
             return "";
         }
@@ -46,12 +49,15 @@ public class Parser {
      * @throws EchoException If the task number is missing or not a valid integer.
      */
     public static int getTaskNumber(String input) throws EchoException {
+        assert input != null : "Input should not be null";
         String[] parts = input.split("\\s+");
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new EchoException("Please provide a task number.");
         }
         try {
-            return Integer.parseInt(parts[1].trim());
+            int taskNum = Integer.parseInt(parts[1].trim());
+            assert taskNum > 0 : "Task number from user should be positive";
+            return taskNum;
         } catch (NumberFormatException e) {
             throw new EchoException("Please provide a valid task number.");
         }

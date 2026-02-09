@@ -92,6 +92,7 @@ public class Storage {
      * @return A Task object (Todo, Deadline, or Event), or null if the line is corrupted.
      */
     private Task parseTask(String line) {
+        assert line != null : "Line cannot be null";
         String[] parts = line.split(DELIMITER);
         if (parts.length < MIN_PARTS) {
             return null; // Corrupted line
@@ -127,6 +128,8 @@ public class Storage {
         if (task != null && isDone) {
             task.markDone();
         }
+
+        assert task == null || task.getDescription() != null : "Task description must not be null";
         return task;
     }
 
