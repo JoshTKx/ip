@@ -2,8 +2,8 @@ package echo.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
+import echo.util.DateTimeParser;
 
 /**
  * Represents a task with a deadline.
@@ -25,22 +25,11 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description);
         this.by = by;
-
-        try {
-            this.dateTime = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        this.dateTime = DateTimeParser.parseDateTime(by);
+        if (this.dateTime == null) {
+            this.date = DateTimeParser.parseDate(by);
+        } else {
             this.date = null;
-            return;
-        } catch (DateTimeParseException e) {
-            // Not a datetime, try date
-        }
-
-        // Try parsing as date only (yyyy-MM-dd)
-        try {
-            this.date = LocalDate.parse(by);
-            this.dateTime = null;
-        } catch (DateTimeParseException e) {
-            this.date = null;
-            this.dateTime = null;
         }
     }
 
@@ -66,13 +55,10 @@ public class Deadline extends Task {
     public String toString() {
         String dateString;
         if (dateTime != null) {
-            // Format with time: Dec 2 2019, 6:00PM
-            dateString = dateTime.format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mma"));
+            dateString = DateTimeParser.formatDateTime(dateTime);
         } else if (date != null) {
-            // Format date only: Dec 2 2019
-            dateString = date.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            dateString = DateTimeParser.formatDate(date);
         } else {
-            // Keep original string
             dateString = by;
         }
         return "[D]" + super.toString() + " (by: " + dateString + ")";

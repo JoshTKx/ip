@@ -2,8 +2,8 @@ package echo.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
+import echo.util.DateTimeParser;
 
 /**
  * Represents a task that occurs during a specific time period.
@@ -31,30 +31,18 @@ public class Event extends Task {
         this.from = from;
         this.to = to;
 
-        try {
-            this.startDateTime = LocalDateTime.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        this.startDateTime = DateTimeParser.parseDateTime(from);
+        if (this.startDateTime == null) {
+            this.startDate = DateTimeParser.parseDate(from);
+        } else {
             this.startDate = null;
-        } catch (DateTimeParseException e) {
-            try {
-                this.startDate = LocalDate.parse(from);
-                this.startDateTime = null;
-            } catch (DateTimeParseException e2) {
-                this.startDateTime = null;
-                this.startDate = null;
-            }
         }
 
-        try {
-            this.endDateTime = LocalDateTime.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        this.endDateTime = DateTimeParser.parseDateTime(to);
+        if (this.endDateTime == null) {
+            this.endDate = DateTimeParser.parseDate(to);
+        } else {
             this.endDate = null;
-        } catch (DateTimeParseException e) {
-            try {
-                this.endDate = LocalDate.parse(to);
-                this.endDateTime = null;
-            } catch (DateTimeParseException e2) {
-                this.endDateTime = null;
-                this.endDate = null;
-            }
         }
     }
 
@@ -81,20 +69,18 @@ public class Event extends Task {
         String fromString;
         String toString;
 
-        // Format "from"
         if (startDateTime != null) {
-            fromString = startDateTime.format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mma"));
+            fromString = DateTimeParser.formatDateTime(startDateTime);
         } else if (startDate != null) {
-            fromString = startDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            fromString = DateTimeParser.formatDate(startDate);
         } else {
             fromString = from;
         }
 
-        // Format "to"
         if (endDateTime != null) {
-            toString = endDateTime.format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mma"));
+            toString = DateTimeParser.formatDateTime(endDateTime);
         } else if (endDate != null) {
-            toString = endDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            toString = DateTimeParser.formatDate(endDate);
         } else {
             toString = to;
         }
