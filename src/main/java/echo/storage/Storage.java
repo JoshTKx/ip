@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import echo.task.Deadline;
@@ -82,9 +83,9 @@ public class Storage {
             return null; // Corrupted line
         }
 
-        for (int i = 0; i < parts.length; i++) {
-            parts[i] = parts[i].trim();
-        }
+        parts = Arrays.stream(parts)
+                .map(String::trim)
+                .toArray(String[]::new);
 
         String type = parts[0];
         boolean isDone = parts[1].equals("1");

@@ -1,6 +1,7 @@
 package echo.tasklist;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import echo.task.Task;
 
@@ -9,7 +10,7 @@ import echo.task.Task;
  * Provides operations to add, remove, and retrieve tasks from the list.
  */
 public class TaskList {
-    private ArrayList<Task> tasks;
+    private final ArrayList<Task> tasks;
 
     /**
      * Constructs an empty TaskList.
@@ -81,12 +82,9 @@ public class TaskList {
      * @return A new TaskList containing all matching tasks.
      */
     public TaskList findTasks(String keyword) {
-        TaskList matchingTasks = new TaskList();
-        for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
-                matchingTasks.add(task);
-            }
-        }
-        return matchingTasks;
+        ArrayList<Task> matchingTasks = (ArrayList<Task>) tasks.stream()
+                .filter(task -> task.getDescription().contains(keyword))
+                .collect(Collectors.toList());
+        return new TaskList(matchingTasks);
     }
 }
