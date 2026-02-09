@@ -1,6 +1,8 @@
 package echo;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import echo.exception.EchoException;
 import echo.parser.Parser;
@@ -120,11 +122,10 @@ public class Echo {
         if (tasks.size() == 0) {
             return "Your task list is empty!";
         }
-        StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
-        for (int i = 0; i < tasks.size(); i++) {
-            sb.append((i + 1)).append(". ").append(tasks.get(i)).append("\n");
-        }
-        return sb.toString().trim();
+        String taskList = IntStream.range(0, tasks.size())
+                .mapToObj(i -> (i + 1) + ". " + tasks.get(i))
+                .collect(Collectors.joining("\n"));
+        return "Here are the tasks in your list:\n" + taskList;
     }
 
     /**
@@ -278,10 +279,9 @@ public class Echo {
         if (matchingTasks.size() == 0) {
             return "No matching tasks found.";
         }
-        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
-        for (int i = 0; i < matchingTasks.size(); i++) {
-            sb.append((i + 1)).append(". ").append(matchingTasks.get(i)).append("\n");
-        }
-        return sb.toString().trim();
+        String taskList = IntStream.range(0, matchingTasks.size())
+                .mapToObj(i -> (i + 1) + ". " + matchingTasks.get(i))
+                .collect(Collectors.joining("\n"));
+        return "Here are the matching tasks in your list:\n" + taskList;
     }
 }
