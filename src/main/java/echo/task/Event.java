@@ -28,6 +28,8 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) {
         super(description);
+        assert from != null : "Event 'from' parameter cannot be null";
+        assert to != null : "Event 'to' parameter cannot be null";
         this.from = from;
         this.to = to;
 
