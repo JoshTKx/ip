@@ -30,14 +30,18 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
+    /**
+     * Sets the Echo instance for this controller.
+     *
+     * @param e The Echo instance to use for processing commands.
+     */
     public void setEcho(Echo e) {
         echo = e;
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
+     * Creates two dialog boxes, one echoing user input and the other containing Echo's reply,
+     * then appends them to the dialog container. Clears the user input after processing.
      */
     @FXML
     private void handleUserInput() {

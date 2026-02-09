@@ -8,6 +8,12 @@ import echo.exception.EchoException;
  */
 public class Parser {
 
+    private static final String DELIMITER_BY = " /by ";
+    private static final String DELIMITER_FROM = " /from ";
+    private static final String DELIMITER_TO = " /to ";
+    private static final int MIN_PARTS_DEADLINE = 2;
+    private static final int MIN_PARTS_EVENT = 3;
+
     /**
      * Extracts the command word from the user input.
      *
@@ -66,11 +72,11 @@ public class Parser {
      * @throws EchoException If the /by keyword is missing or if description or date is empty.
      */
     public static String[] parseDeadline(String description) throws EchoException {
-        if (!description.contains("/by")) {
+        if (!description.contains(DELIMITER_BY)) {
             throw new EchoException("Deadlines need a date! Use: deadline <task> /by <date>");
         }
-        String[] parts = description.split(" /by ", 2);
-        if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+        String[] parts = description.split(DELIMITER_BY, 2);
+        if (parts.length < MIN_PARTS_DEADLINE || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
             throw new EchoException("Please provide both description and deadline date.");
         }
         return new String[]{parts[0].trim(), parts[1].trim()};
@@ -85,12 +91,13 @@ public class Parser {
      * @throws EchoException If /from or /to keywords are missing, or if any component is empty.
      */
     public static String[] parseEvent(String description) throws EchoException {
-        if (!description.contains("/from") || !description.contains("/to")) {
+        if (!description.contains(DELIMITER_FROM) || !description.contains(DELIMITER_TO)) {
             throw new EchoException("Events need start and end times! "
                     + "Use: event <task> /from <time> /to <time>");
         }
-        String[] parts = description.split(" /from | /to ");
-        if (parts.length < 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
+        String[] parts = description.split(DELIMITER_FROM + "|" + DELIMITER_TO);
+        if (parts.length < MIN_PARTS_EVENT || parts[0].trim().isEmpty()
+                || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
             throw new EchoException("Please provide event description, start time, and end time.");
         }
         return new String[]{parts[0].trim(), parts[1].trim(), parts[2].trim()};

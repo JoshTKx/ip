@@ -29,7 +29,7 @@ public class DialogBox extends HBox {
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error loading DialogBox FXML: " + e.getMessage());
         }
 
         dialog.setText(text);
