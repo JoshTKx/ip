@@ -13,6 +13,7 @@ public class Parser {
     private static final String DELIMITER_TO = " /to ";
     private static final int MIN_PARTS_DEADLINE = 2;
     private static final int MIN_PARTS_EVENT = 3;
+    private static final String DELIMITER_REPEAT = " /repeat ";
 
     /**
      * Extracts the command word from the user input.
@@ -101,5 +102,35 @@ public class Parser {
             throw new EchoException("Please provide event description, start time, and end time.");
         }
         return new String[]{parts[0].trim(), parts[1].trim(), parts[2].trim()};
+    }
+
+    /**
+     * Extracts the recurrence pattern from the event description.
+     * Expected format: "... /repeat daily|weekly|monthly"
+     *
+     * @param description The description that may contain /repeat.
+     * @return The recurrence pattern ("daily", "weekly", "monthly"), or null if not present.
+     */
+    public static String extractRecurrence(String description) {
+        if (description.contains(DELIMITER_REPEAT)) {
+            String[] parts = description.split(DELIMITER_REPEAT, 2);
+            if (parts.length > 1) {
+                return parts[1].trim();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Removes the /repeat portion from the description.
+     *
+     * @param description The description that may contain /repeat.
+     * @return The description without the /repeat portion.
+     */
+    public static String removeRecurrence(String description) {
+        if (description.contains(DELIMITER_REPEAT)) {
+            return description.split(DELIMITER_REPEAT, 2)[0].trim();
+        }
+        return description;
     }
 }
