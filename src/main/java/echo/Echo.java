@@ -1,6 +1,7 @@
 package echo;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -12,6 +13,7 @@ import echo.task.Event;
 import echo.task.Task;
 import echo.task.Todo;
 import echo.tasklist.TaskList;
+import echo.util.DateTimeParser;
 
 /**
  * Main class for the Echo task management chatbot.
@@ -222,8 +224,24 @@ public class Echo {
      */
     private String handleEventResponse(String input) throws EchoException, IOException {
         String description = Parser.getDescription(input, COMMAND_EVENT);
+        String recurrence = Parser.extractRecurrence(description);
+        description = Parser.removeRecurrence(description);
         String[] parts = Parser.parseEvent(description);
-        Task task = new Event(parts[0], parts[1], parts[2]);
+        if (recurrence != null) {
+            LocalDateTime start = DateTimeParser.parseDateTime(parts[1]);
+            LocalDateTime end = DateTimeParser.parseDateTime(parts[2]);
+
+            if (start == null || end == null) {
+                throw new EchoException("Recurring events require datetime format: yyyy-MM-dd HHmm\n"
+                        + "Example: event meeting /from 2024-12-16 1400 /to 1500 /repeat weekly");
+            }
+        }
+        Task task;
+        if (recurrence != null) {
+            task = new Event(parts[0], parts[1], parts[2], recurrence);
+        } else {
+            task = new Event(parts[0], parts[1], parts[2]);
+        }
         tasks.add(task);
         storage.save(tasks);
         return "Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.size() + " tasks in the list.";

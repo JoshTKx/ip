@@ -1,6 +1,7 @@
 package echo.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -84,19 +85,49 @@ public class EventTest {
     @Test
     public void toFileFormat_notDone_correctFormat() {
         Event event = new Event("meeting", "Mon 2pm", "4pm");
-        assertEquals("E | 0 | meeting | Mon 2pm | 4pm", event.toFileFormat());
+        assertEquals("E | 0 | meeting | Mon 2pm | 4pm | none", event.toFileFormat());
     }
 
     @Test
     public void toFileFormat_done_correctFormat() {
         Event event = new Event("meeting", "Mon 2pm", "4pm");
         event.markDone();
-        assertEquals("E | 1 | meeting | Mon 2pm | 4pm", event.toFileFormat());
+        assertEquals("E | 1 | meeting | Mon 2pm | 4pm | none", event.toFileFormat());
     }
 
     @Test
     public void toFileFormat_dateFormat_preservesOriginalStrings() {
         Event event = new Event("conference", "2019-12-10", "2019-12-12");
-        assertEquals("E | 0 | conference | 2019-12-10 | 2019-12-12", event.toFileFormat());
+        assertEquals("E | 0 | conference | 2019-12-10 | 2019-12-12 | none", event.toFileFormat());
+    }
+
+    @Test
+    public void constructor_withRecurrence_success() {
+        Event event = new Event("team meeting", "2024-12-16 1400", "2024-12-16 1500", "weekly");
+        assertEquals("team meeting", event.getDescription());
+        assertTrue(event.toString().contains("(repeats weekly)"));
+    }
+
+    @Test
+    public void toString_recurringEvent_showsNextOccurrences() {
+        Event event = new Event("standup", "2024-12-16 0900", "2024-12-16 0930", "daily");
+        String result = event.toString();
+        assertTrue(result.contains("(repeats daily)"));
+        assertTrue(result.contains("Next: Dec 17, Dec 18, Dec 19"));
+    }
+
+    @Test
+    public void toFileFormat_recurringEvent_includesRecurrence() {
+        Event event = new Event("team meeting", "2024-12-16 1400", "2024-12-16 1500", "weekly");
+        assertEquals("E | 0 | team meeting | 2024-12-16 1400 | 2024-12-16 1500 | weekly",
+                event.toFileFormat());
+    }
+
+    @Test
+    public void toString_recurringEventWithoutDateTime_noOccurrences() {
+        Event event = new Event("meeting", "Monday", "Tuesday", "weekly");
+        String result = event.toString();
+        assertTrue(result.contains("(repeats weekly)"));
+        assertTrue(!result.contains("Next:"));
     }
 }

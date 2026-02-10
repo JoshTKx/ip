@@ -23,12 +23,14 @@ public class Storage {
     private static final int MIN_PARTS = 3;
     private static final int DEADLINE_PARTS = 4;
     private static final int EVENT_PARTS = 5;
+    private static final int EVENT_PARTS_WITH_RECURRENCE = 6;
     private static final int INDEX_TYPE = 0;
     private static final int INDEX_STATUS = 1;
     private static final int INDEX_DESCRIPTION = 2;
     private static final int INDEX_DEADLINE_BY = 3;
     private static final int INDEX_EVENT_FROM = 3;
     private static final int INDEX_EVENT_TO = 4;
+    private static final int INDEX_EVENT_RECURRENCE = 5;
     private static final String STATUS_DONE = "1";
     private static final String TYPE_TODO = "T";
     private static final String TYPE_DEADLINE = "D";
@@ -118,7 +120,16 @@ public class Storage {
             }
             break;
         case TYPE_EVENT:
-            if (parts.length >= EVENT_PARTS) {
+            if (parts.length >= EVENT_PARTS_WITH_RECURRENCE) {
+                // Event with recurrence
+                String recurrence = parts[INDEX_EVENT_RECURRENCE];
+                if (recurrence.equals("none")) {
+                    task = new Event(description, parts[INDEX_EVENT_FROM], parts[INDEX_EVENT_TO]);
+                } else {
+                    task = new Event(description, parts[INDEX_EVENT_FROM], parts[INDEX_EVENT_TO], recurrence);
+                }
+            } else if (parts.length >= EVENT_PARTS) {
+                // Event without recurrence (old format, backward compatible)
                 task = new Event(description, parts[INDEX_EVENT_FROM], parts[INDEX_EVENT_TO]);
             }
             break;
