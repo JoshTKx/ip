@@ -14,6 +14,8 @@ import echo.task.Task;
 import echo.task.Todo;
 import echo.tasklist.TaskList;
 import echo.util.DateTimeParser;
+import echo.util.InputValidator;
+import echo.util.StringFormatter;
 
 /**
  * Main class for the Echo task management chatbot.
@@ -118,6 +120,9 @@ public class Echo {
     /**
      * Returns the task list as a formatted string.
      *
+     * AI-Assisted: Claude suggested using StringFormatter.formatListItem for consistent
+     * list formatting across the application (also used in handleFindResponse).
+     *
      * @return The formatted task list string.
      */
     private String getTaskListString() {
@@ -125,13 +130,17 @@ public class Echo {
             return "Your task list is empty!";
         }
         String taskList = IntStream.range(0, tasks.size())
-                .mapToObj(i -> (i + 1) + ". " + tasks.get(i))
+                .mapToObj(i -> StringFormatter.formatListItem(i, tasks.get(i)))
                 .collect(Collectors.joining("\n"));
         return "Here are the tasks in your list:\n" + taskList;
     }
 
     /**
      * Handles the mark command and returns a response string.
+     *
+     * AI-Assisted: Claude Code identified that task number validation was duplicated across
+     * mark, unmark, and delete methods. Suggested using InputValidator.requireValidTaskIndex
+     * for consistent validation and better error messages.
      *
      * @param input The user input containing the task number to mark.
      * @return The response string indicating the task was marked.
@@ -144,9 +153,7 @@ public class Echo {
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
         assert taskNum >= -1 : "Task number after parsing should be >= -1";
-        if (taskNum < 0 || taskNum >= tasks.size()) {
-            throw new EchoException("Task number doesn't exist.");
-        }
+        InputValidator.requireValidTaskIndex(taskNum, tasks.size());
 
         assert tasks.get(taskNum) != null : "Task at valid index should not be null";
         tasks.get(taskNum).markDone();
@@ -156,6 +163,8 @@ public class Echo {
 
     /**
      * Handles the unmark command and returns a response string.
+     *
+     * AI-Assisted: Refactored to use InputValidator for consistent task number validation.
      *
      * @param input The user input containing the task number to unmark.
      * @return The response string indicating the task was unmarked.
@@ -168,9 +177,7 @@ public class Echo {
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
         assert taskNum >= -1 : "Task number after parsing should be >= -1";
-        if (taskNum < 0 || taskNum >= tasks.size()) {
-            throw new EchoException("Task number doesn't exist.");
-        }
+        InputValidator.requireValidTaskIndex(taskNum, tasks.size());
 
         assert tasks.get(taskNum) != null : "Task at valid index should not be null";
         tasks.get(taskNum).markNotDone();
@@ -180,6 +187,9 @@ public class Echo {
 
     /**
      * Handles the todo command and returns a response string.
+     *
+     * AI-Assisted: Refactored to use StringFormatter.formatTaskAdded for consistent messaging
+     * with proper pluralization.
      *
      * @param input The full user input string containing the todo command and description.
      * @return The response string indicating the task was added.
@@ -194,11 +204,13 @@ public class Echo {
         Task task = new Todo(description);
         tasks.add(task);
         storage.save(tasks);
-        return "Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.size() + " tasks in the list.";
+        return StringFormatter.formatTaskAdded(task.toString(), tasks.size());
     }
 
     /**
      * Handles the deadline command and returns a response string.
+     *
+     * AI-Assisted: Refactored to use StringFormatter for consistent task addition messages.
      *
      * @param input The full user input string containing the deadline command, description, and date.
      * @return The response string indicating the task was added.
@@ -211,11 +223,13 @@ public class Echo {
         Task task = new Deadline(parts[0], parts[1]);
         tasks.add(task);
         storage.save(tasks);
-        return "Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.size() + " tasks in the list.";
+        return StringFormatter.formatTaskAdded(task.toString(), tasks.size());
     }
 
     /**
      * Handles the event command and returns a response string.
+     *
+     * AI-Assisted: Refactored to use StringFormatter for consistent task addition messages.
      *
      * @param input The full user input string containing the event command, description, start and end times.
      * @return The response string indicating the task was added.
@@ -244,11 +258,14 @@ public class Echo {
         }
         tasks.add(task);
         storage.save(tasks);
-        return "Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.size() + " tasks in the list.";
+        return StringFormatter.formatTaskAdded(task.toString(), tasks.size());
     }
 
     /**
      * Handles the delete command and returns a response string.
+     *
+     * AI-Assisted: Refactored to use InputValidator and StringFormatter for consistent
+     * validation and messaging.
      *
      * @param input The full user input string containing the delete command and task number.
      * @return The response string indicating the task was deleted.
@@ -260,13 +277,10 @@ public class Echo {
             throw new EchoException("Please specify which task to delete.");
         }
         int taskNum = Parser.getTaskNumber(input) - 1;
-        if (taskNum < 0 || taskNum >= tasks.size()) {
-            throw new EchoException("Task number doesn't exist.");
-        }
+        InputValidator.requireValidTaskIndex(taskNum, tasks.size());
         Task removedTask = tasks.remove(taskNum);
         storage.save(tasks);
-        return "Noted. I've removed this task:\n  " + removedTask + "\nNow you have "
-                + tasks.size() + " tasks in the list.";
+        return StringFormatter.formatTaskRemoved(removedTask.toString(), tasks.size());
     }
 
     /**
@@ -284,6 +298,8 @@ public class Echo {
     /**
      * Handles the find command and returns a response string.
      *
+     * AI-Assisted: Refactored to use StringFormatter.formatListItem for consistent formatting.
+     *
      * @param input The full user input string containing the find command and keyword.
      * @return The response string with matching tasks or a message if none found.
      * @throws EchoException If the keyword is missing.
@@ -298,7 +314,7 @@ public class Echo {
             return "No matching tasks found.";
         }
         String taskList = IntStream.range(0, matchingTasks.size())
-                .mapToObj(i -> (i + 1) + ". " + matchingTasks.get(i))
+                .mapToObj(i -> StringFormatter.formatListItem(i, matchingTasks.get(i)))
                 .collect(Collectors.joining("\n"));
         return "Here are the matching tasks in your list:\n" + taskList;
     }
