@@ -1,5 +1,5 @@
-T | 1 | buy food
-D | 0 | ine | tonight
-T | 0 | sleep
-T | 0 | sleep
-E | 1 | dinner | 2024-12-16 1400 | 2024-12-16 1500 | weekly
+T | 1 | Complete CS2103T iP documentation
+E | 1 | Weekly team standup | 2024-12-23 1000 | 2024-12-23 1030 | weekly
+D | 0 | Submit final report | 2024-12-25 2359
+E | 0 | Morning workout | 2024-12-20 0700 | 2024-12-20 0800 | daily
+T | 0 | Review pull requests
